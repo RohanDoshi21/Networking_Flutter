@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mycollegenetwork/screens/Login+Registration/login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AuthenticationHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -56,5 +58,30 @@ class AuthenticationHelper {
         .then((value) => print("User Details Added"))
         .catchError((error) => print("Failed to add user: $error"));
     return;
+  }
+
+  Future signInWithGoogle() async {
+    late final isuser;
+    try {
+      // ignore: unused_local_variable
+      UserCredential userCredential;
+      if (kIsWeb) {
+        var googleProvider = GoogleAuthProvider();
+        userCredential = await _auth.signInWithPopup(googleProvider);
+      } else {
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser!.authentication;
+        final googleAuthCredential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        userCredential = await _auth.signInWithCredential(googleAuthCredential);
+         isuser = userCredential.additionalUserInfo!.isNewUser;
+      }
+      return isuser;
+    } catch (e) {
+      return e;
+    }
   }
 }

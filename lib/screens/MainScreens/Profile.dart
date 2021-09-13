@@ -70,7 +70,7 @@ class Profile extends StatelessWidget {
 
               const SizedBox(height: 10.0),
 
-              UserInfo(),
+              UserInfoProfile(),
               // TODO: add button type tiles for the clubs!
               // Container(
               //   height: 100.0,
@@ -90,7 +90,7 @@ class Profile extends StatelessWidget {
   }
 }
 
-class UserInfo extends StatelessWidget {
+class UserInfoProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

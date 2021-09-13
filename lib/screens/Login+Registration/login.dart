@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycollegenetwork/screens/Login+Registration/userInfo.dart';
 import 'package:mycollegenetwork/services/authentication.dart';
 import '../InitialPage.dart';
 import 'registration.dart';
@@ -10,6 +11,7 @@ class LoginPage extends StatelessWidget {
   final passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       // backgroundColor: Colors.white,
@@ -198,7 +200,56 @@ class LoginPage extends StatelessWidget {
                       },
                     ),
                   ],
-                )
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: size.width * 0.80,
+                  child: Divider(
+                    thickness: 5,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "OR sign-in using",
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                IconButton(
+                  onPressed: () {
+                    AuthenticationHelper().signInWithGoogle().then((result) {
+                      if (result == false) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InitialPage()));
+                      } else if (result == true) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UserInfo()));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                            result,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ));
+                      }
+                    });
+                  },
+                  icon: Image.asset(
+                    "assets/icons/google.png",
+                    height: 50,
+                  ),
+                ),
               ],
             ),
           ],

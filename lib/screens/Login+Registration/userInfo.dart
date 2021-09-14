@@ -75,6 +75,7 @@ class UserInfo extends StatelessWidget {
                                   keyboardType: TextInputType.name,
                                   obscureText: false,
                                   decoration: InputDecoration(
+                                    prefixIcon:Icon(Icons.person),
                                     contentPadding: EdgeInsets.symmetric(
                                         vertical: 0, horizontal: 10),
                                     enabledBorder: OutlineInputBorder(
@@ -112,6 +113,7 @@ class UserInfo extends StatelessWidget {
                                 TextField(
                                   obscureText: false,
                                   decoration: InputDecoration(
+                                    prefixIcon:Icon(Icons.push_pin_outlined),
                                     contentPadding: EdgeInsets.symmetric(
                                         vertical: 0, horizontal: 10),
                                     enabledBorder: OutlineInputBorder(
@@ -150,6 +152,7 @@ class UserInfo extends StatelessWidget {
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
                                   decoration: InputDecoration(
+                                    prefixIcon:Icon(Icons.phone),
                                     contentPadding: EdgeInsets.symmetric(
                                         vertical: 0, horizontal: 10),
                                     enabledBorder: OutlineInputBorder(

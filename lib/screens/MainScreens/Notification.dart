@@ -16,7 +16,10 @@ List notificationsSampleList = [
   ["CLASS", "Upcoming SIG at 6 pm on 30/08/2021", "30/08/2021", "18:44"],
 ];
 
-// COMPLETEDTODO: Add a button to dismis the notification from the list!   
+// COMPLETEDTODO: Add a button to dismis the notification from the list!
+//! Remove dismis    
+//! add a read more!
+//! Add a speaker and platform, link sessions
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
 

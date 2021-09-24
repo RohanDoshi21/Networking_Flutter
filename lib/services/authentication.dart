@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:mycollegenetwork/screens/Login+Registration/login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
 
 class AuthenticationHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -77,11 +80,33 @@ class AuthenticationHelper {
           idToken: googleAuth.idToken,
         );
         userCredential = await _auth.signInWithCredential(googleAuthCredential);
-         isuser = userCredential.additionalUserInfo!.isNewUser;
+        isuser = userCredential.additionalUserInfo!.isNewUser;
       }
       return isuser;
     } catch (e) {
       return e;
     }
   }
+
+  Future microsoftSignIn(String provider, List<String> scopes,
+      Map<String, String> parameters) async {
+    bool isNewUser = false;
+    User? user;
+    try {
+      user = await FirebaseAuthOAuth()
+          .openSignInFlow(provider, scopes, parameters);
+      String lastSignInTime = user!.metadata.lastSignInTime.toString();
+      String creationTime = user.metadata.creationTime.toString();
+      lastSignInTime = lastSignInTime.substring(0, lastSignInTime.length - 7);
+      creationTime = creationTime.substring(0, creationTime.length - 7);
+      // print(lastSignInTime);
+      if (lastSignInTime == creationTime) {
+        isNewUser = true;
+      }
+      return isNewUser;
+    } on PlatformException catch (error) {
+      return error;
+    }
+  }
+
 }

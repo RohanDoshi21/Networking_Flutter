@@ -132,7 +132,7 @@ class _NotificationsState extends State<Notifications> {
                           InkWell(
                             child: Container(
                               child: Text(
-                                "Dismis",
+                                "Read More",
                                 style:
                                     TextStyle(color: Colors.red, fontSize: 18),
                                 textAlign: TextAlign.center,
@@ -140,11 +140,12 @@ class _NotificationsState extends State<Notifications> {
                               width: MediaQuery.of(context).size.width * 0.8,
                             ),
                             onTap: () {
-                              // print(notificationsSampleList[index]);
-                              setState(() {
-                                notificationsSampleList.removeAt(index);
-                              });
-                              // print(notificationsSampleList);
+                              // // print(notificationsSampleList[index]);
+                              // setState(() {
+                              //   notificationsSampleList.removeAt(index);
+                              // });
+                              // // print(notificationsSampleList);
+                              // todo add a pop up with a specefic format
                             },
                           ),
                         ],

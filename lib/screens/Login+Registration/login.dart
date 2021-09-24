@@ -30,7 +30,7 @@ class LoginPage extends StatelessWidget {
                 Column(
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width*0.90,
+                      width: MediaQuery.of(context).size.width * 0.90,
                       padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.25),
@@ -209,7 +209,7 @@ class LoginPage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Dont have an account?"),
+                        Text("Dont have an account? "),
                         InkWell(
                           child: Text(
                             "Sign Up",
@@ -248,33 +248,71 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
-                IconButton(
-                  onPressed: () {
-                    AuthenticationHelper().signInWithGoogle().then((result) {
-                      if (result == false) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => InitialPage()));
-                      } else if (result == true) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => UserInfo()));
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                            result,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ));
-                      }
-                    });
-                  },
-                  icon: Image.asset(
-                    "assets/icons/google.png",
-                    height: 50,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        AuthenticationHelper()
+                            .signInWithGoogle()
+                            .then((result) {
+                          if (result == false) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => InitialPage()));
+                          } else if (result == true) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserInfo()));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                result,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ));
+                          }
+                        });
+                      },
+                      icon: Image.asset(
+                        "assets/icons/google.png",
+                        height: 50,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        AuthenticationHelper().microsoftSignIn(
+                            "microsoft.com",
+                            ["email openid"],
+                            {'language': 'en'}).then((result) {
+                          if (result == false) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => InitialPage()));
+                          } else if (result == true) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserInfo()));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                result,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ));
+                          }
+                        });
+                      },
+                      icon: Image.asset(
+                        "assets/icons/microsoft1.png",
+                        height: 50,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

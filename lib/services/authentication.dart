@@ -60,6 +60,10 @@ class AuthenticationHelper {
         }, SetOptions(merge: true))
         .then((value) => print("User Details Added"))
         .catchError((error) => print("Failed to add user: $error"));
+
+    User? user = auth.currentUser;
+    user!.linkWithPhoneNumber(phoneNo);
+
     return;
   }
 

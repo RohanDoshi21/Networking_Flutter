@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycollegenetwork/services/getrequests.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 String uid = auth.currentUser!.uid.toString();
@@ -143,9 +144,20 @@ class UserInfoProfile extends StatelessWidget {
                             subtitle: Text(email),
                           ),
                           ListTile(
-                            leading: Icon(Icons.phone),
+                            leading: IconButton(
+                              onPressed: () => {
+                                launch('tel:+91 ' + phoneNumber),
+                              },
+                              icon: Icon(Icons.phone),
+                            ),
                             title: Text("Phone"),
                             subtitle: GetUserPhoneNo(uid, 13),
+                            trailing: IconButton(
+                              onPressed: () => {
+                                launch('whatsapp://send?phone=' + phoneNumber),
+                              },
+                              icon: Icon(Icons.whatshot_rounded),
+                            ),
                           ),
                           ListTile(
                             leading: Icon(Icons.cake),
@@ -162,6 +174,16 @@ class UserInfoProfile extends StatelessWidget {
                             title: Text("No of Events participated!"),
                             subtitle: Text("8"),
                           ),
+                          // ListTile(
+                          //   leading: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.start,
+                          //     children: [
+                          //       Icon(Icons.widgets),
+                          //       Icon(Icons.window_sharp),
+                          //       Icon(Icons.yard),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],
@@ -169,7 +191,39 @@ class UserInfoProfile extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Clubs",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.widgets, size: 40),
+                      SizedBox(width: 5),
+                      Icon(Icons.window_sharp, size: 40),
+                      SizedBox(width: 5),
+                      Icon(Icons.yard, size: 40),
+                      SizedBox(width: 5),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

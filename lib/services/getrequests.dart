@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+late String phoneNumber;
 class GetData {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   get user => _auth.currentUser;
@@ -130,6 +131,7 @@ class GetUserPhoneNo extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
+          phoneNumber = data['PhoneNo'].toString();
           return Text(
             "${data['PhoneNo']}",
             style: TextStyle(fontSize: fontsize, color: Colors.white),

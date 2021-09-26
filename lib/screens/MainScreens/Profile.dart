@@ -146,7 +146,7 @@ class UserInfoProfile extends StatelessWidget {
                           ListTile(
                             leading: IconButton(
                               onPressed: () => {
-                                launch('tel:+91 ' + phoneNumber),
+                                launch('tel:' + phoneNumber),
                               },
                               icon: Icon(Icons.phone),
                             ),
@@ -196,6 +196,8 @@ class UserInfoProfile extends StatelessWidget {
             height: 15,
           ),
           Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

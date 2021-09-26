@@ -164,6 +164,8 @@ class UserInfo extends StatelessWidget {
                                         borderSide:
                                             BorderSide(color: Colors.grey)),
                                   ),
+                                  // controller: TextEditingController()..text = '+91'..selection = TextSelection.fromPosition(TextPosition(offset: 3)),
+                                  controller: TextEditingController(text: "+91"),
                                   onChanged: (value) {
                                     phoneNo = value;
                                   },

@@ -151,7 +151,7 @@ class UserInfoProfile extends StatelessWidget {
                               icon: Icon(Icons.phone),
                             ),
                             title: Text("Phone"),
-                            subtitle: GetUserPhoneNo(uid, 13),
+                            subtitle: Text(phoneNumber),
                             trailing: IconButton(
                               onPressed: () => {
                                 launch('whatsapp://send?phone=' + phoneNumber),

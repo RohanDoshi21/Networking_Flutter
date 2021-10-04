@@ -4,8 +4,16 @@ import '../InitialPage.dart';
 import 'userInfo.dart';
 
 // ignore: must_be_immutable
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
+  @override
+  _SignupPageState createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final _formKey = GlobalKey<FormState>();
+
   late String email, password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,86 +81,103 @@ class SignupPage extends StatelessWidget {
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Column(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Email",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        // color: Colors.black87
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    TextField(
-                                      keyboardType: TextInputType.emailAddress,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        prefixIcon: Icon(Icons.email),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 0, horizontal: 10),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.grey,
-                                          ),
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Email",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          // color: Colors.black87
                                         ),
-                                        border: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.grey)),
                                       ),
-                                      onChanged: (value) {
-                                        email = value;
-                                      },
-                                    ),
-                                    SizedBox(
-                                      height: 30,
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Password",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        // color: Colors.black87
+                                      SizedBox(
+                                        height: 5,
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    TextField(
-                                      obscureText: true,
-                                      decoration: InputDecoration(
-                                        prefixIcon: Icon(Icons.lock),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 0, horizontal: 10),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.grey,
+                                      TextFormField(
+                                        validator: (val) {
+                                          if (val!.length > 40) {
+                                            return "Email cannot be that long";
+                                          }
+                                        },
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          prefixIcon: Icon(Icons.email),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: 10),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.grey,
+                                            ),
                                           ),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey)),
                                         ),
-                                        border: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.grey)),
+                                        onChanged: (value) {
+                                          email = value;
+                                        },
                                       ),
-                                      onChanged: (value) {
-                                        password = value;
-                                      },
-                                    ),
-                                    SizedBox(
-                                      height: 30,
-                                    )
-                                  ],
-                                ),
-                              ],
+                                      SizedBox(
+                                        height: 30,
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Password",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          // color: Colors.black87
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      TextFormField(
+                                        validator: (val) {
+                                          if (val!.length > 25) {
+                                            return "Password Cannot be that long";
+                                          } else
+                                            return null;
+                                        },
+                                        obscureText: true,
+                                        decoration: InputDecoration(
+                                          prefixIcon: Icon(Icons.lock),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 0, horizontal: 10),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.grey)),
+                                        ),
+                                        onChanged: (value) {
+                                          password = value;
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Padding(
@@ -171,25 +196,33 @@ class SignupPage extends StatelessWidget {
                                 height: 60,
                                 onPressed: () {
                                   FocusScope.of(context).unfocus();
-                                  AuthenticationHelper()
-                                      .signUp(email: email, password: password)
-                                      .then((result) {
-                                    if (result == null) {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserInfo()));
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text(
-                                          result,
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      ));
-                                    }
-                                  });
+                                  if (_formKey.currentState!.validate()) {
+                                    AuthenticationHelper()
+                                        .signUp(
+                                            email: email, password: password)
+                                        .then(
+                                      (result) {
+                                        if (result == null) {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => UserInfo(),
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                result,
+                                                style: TextStyle(fontSize: 16),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    );
+                                  }
                                 },
                                 color: Colors.redAccent,
                                 shape: RoundedRectangleBorder(

@@ -56,7 +56,7 @@ class AuthenticationHelper {
         .set({
           "Name": name,
           "RollNo": rollNo,
-          "PhoneNo": phoneNo,
+          "PhoneNo": "+91" + phoneNo,
         }, SetOptions(merge: true))
         .then((value) => print("User Details Added"))
         .catchError((error) => print("Failed to add user: $error"));

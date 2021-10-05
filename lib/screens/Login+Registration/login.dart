@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mycollegenetwork/screens/Login+Registration/userInfo.dart';
 import 'package:mycollegenetwork/services/authentication.dart';
-import '../InitialPage.dart';
+import 'package:mycollegenetwork/services/getrequests.dart';
 import 'registration.dart';
 
 // ignore: must_be_immutable
@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    InitialPage(),
+                                                    GetUserData(),
                                               ),
                                             );
                                           } else {
@@ -285,7 +285,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => InitialPage()));
+                                    builder: (context) => GetUserData()));
                           } else if (result == true) {
                             Navigator.pushReplacement(
                                 context,
@@ -316,7 +316,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => InitialPage()));
+                                    builder: (context) => GetUserData()));
                           } else if (result == true) {
                             Navigator.pushReplacement(
                                 context,

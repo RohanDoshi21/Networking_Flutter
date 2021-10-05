@@ -2,8 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mycollegenetwork/screens/Login+Registration/login.dart';
-
-import 'screens/InitialPage.dart';
+import 'package:mycollegenetwork/services/getrequests.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: InitialPage(),
+      home: GetUserData(),
     );
     }
     else{

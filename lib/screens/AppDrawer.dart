@@ -1,8 +1,6 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycollegenetwork/services/authentication.dart';
-import 'package:mycollegenetwork/services/getrequests.dart';
+import 'package:mycollegenetwork/services/userDetails.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
@@ -11,9 +9,9 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    String uid = auth.currentUser!.uid.toString();
-    String email = auth.currentUser!.email.toString();
+    // FirebaseAuth auth = FirebaseAuth.instance;
+    // String uid = auth.currentUser!.uid.toString();
+    // String email = auth.currentUser!.email.toString();
     return Drawer(
       child: Container(
         child: ListView(
@@ -39,9 +37,13 @@ class AppDrawer extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GetUserName(uid, 18),
+                            // GetUserName(uid, 18),
                             Text(
-                              email,
+                              UserDetials.name.toString(),
+                              style: TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                            Text(
+                              UserDetials.email.toString(),
                               style: TextStyle(color: Colors.white),
                             ),
                           ],

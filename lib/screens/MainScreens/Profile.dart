@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mycollegenetwork/services/getrequests.dart';
+import 'package:mycollegenetwork/services/userDetails.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
@@ -49,11 +50,17 @@ class Profile extends StatelessWidget {
                             child: CircleAvatar(
                               radius: 42,
                               backgroundImage: NetworkImage(
-                                  "https://freesvg.org/img/abstract-user-flat-4.png"),
+                                // "https://freesvg.org/img/abstract-user-flat-4.png",
+                                UserDetials.profilePhotoUrl.toString(),
+                              ),
                             ),
                           ),
                         ),
-                        GetUserName(uid, 25),
+                        // GetUserName(uid, 25),
+                        Text(
+                          UserDetials.name.toString(),
+                          style: TextStyle(fontSize: 25, color: Colors.white),
+                        )
                       ],
                     ),
                   ),
@@ -131,17 +138,25 @@ class UserInfoProfile extends StatelessWidget {
                                 Icon(Icons.sentiment_satisfied_alt_outlined),
                             title: Text("About Me"),
                             subtitle: Text(
-                                "This is just short description about the person we can include all the thing things\nAchievements\nRating etc"),
+                              // "This is just short description about the person we can include all the thing things\nAchievements\nRating etc",
+                              UserDetials.description.toString(),
+                            ),
                           ),
                           ListTile(
                             leading: Icon(Icons.push_pin_outlined),
                             title: Text("Roll No"),
-                            subtitle: GetUserRollNo(uid, 13),
+                            subtitle:
+                                // GetUserRollNo(uid, 13),
+                                Text(
+                              UserDetials.rollNo.toString(),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 13),
+                            ),
                           ),
                           ListTile(
                             leading: Icon(Icons.email),
                             title: Text("Email"),
-                            subtitle: Text(email),
+                            subtitle: Text(UserDetials.email.toString()),
                           ),
                           ListTile(
                             leading: IconButton(
@@ -151,10 +166,11 @@ class UserInfoProfile extends StatelessWidget {
                               icon: Icon(Icons.phone),
                             ),
                             title: Text("Phone"),
-                            subtitle: Text(phoneNumber),
+                            subtitle: Text(UserDetials.phoneNo.toString()),
                             trailing: IconButton(
                               onPressed: () => {
-                                launch('whatsapp://send?phone=' + phoneNumber),
+                                launch('whatsapp://send?phone=' +
+                                    UserDetials.phoneNo.toString()),
                               },
                               icon: Icon(Icons.whatshot_rounded),
                             ),
@@ -162,28 +178,18 @@ class UserInfoProfile extends StatelessWidget {
                           ListTile(
                             leading: Icon(Icons.cake),
                             title: Text("Birthday"),
-                            subtitle: Text("21/06/2000"),
+                            subtitle: Text(UserDetials.birthday.toString()),
                           ),
                           ListTile(
                             leading: Icon(Icons.local_play),
                             title: Text("No of Clubs"),
-                            subtitle: Text("2"),
+                            subtitle: Text(UserDetials.noOfClubs.toString()),
                           ),
                           ListTile(
                             leading: Icon(Icons.star),
                             title: Text("No of Events participated!"),
-                            subtitle: Text("8"),
+                            subtitle: Text(UserDetials.noOfEvents.toString()),
                           ),
-                          // ListTile(
-                          //   leading: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.start,
-                          //     children: [
-                          //       Icon(Icons.widgets),
-                          //       Icon(Icons.window_sharp),
-                          //       Icon(Icons.yard),
-                          //     ],
-                          //   ),
-                          // ),
                         ],
                       ),
                     ],

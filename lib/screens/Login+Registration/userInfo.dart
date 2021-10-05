@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycollegenetwork/services/authentication.dart';
-import '../InitialPage.dart';
+import 'package:mycollegenetwork/services/getrequests.dart';
 
 // ignore: must_be_immutable
 class UserInfo extends StatefulWidget {
@@ -196,7 +196,7 @@ class _UserInfoState extends State<UserInfo> {
                                     // controller:
                                     //     TextEditingController(),
                                     onChanged: (value) {
-                                        phoneNo = value;
+                                      phoneNo = value;
                                     },
                                   ),
                                   SizedBox(
@@ -229,7 +229,7 @@ class _UserInfoState extends State<UserInfo> {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => InitialPage(),
+                                      builder: (context) => GetUserData(),
                                     ),
                                   );
                                 }

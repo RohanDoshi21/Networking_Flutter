@@ -51,12 +51,19 @@ class AuthenticationHelper {
         FirebaseFirestore.instance.collection('Users');
     FirebaseAuth auth = FirebaseAuth.instance;
     String uid = auth.currentUser!.uid.toString();
+    String email = auth.currentUser!.email.toString();
     usercollection
         .doc(uid)
         .set({
           "Name": name,
           "RollNo": rollNo,
           "PhoneNo": "+91" + phoneNo,
+          "Email": email,
+          "Description": "Hello I am " + name,
+          "ClubNo": 0,
+          "EventNo": 0,
+          "ProfilePhotoUrl": "https://freesvg.org/img/abstract-user-flat-4.png",
+          "Birthday": "01/01/2000",
         }, SetOptions(merge: true))
         .then((value) => print("User Details Added"))
         .catchError((error) => print("Failed to add user: $error"));
@@ -112,5 +119,4 @@ class AuthenticationHelper {
       return error;
     }
   }
-
 }

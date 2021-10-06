@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mycollegenetwork/services/getrequests.dart';
+import 'package:mycollegenetwork/screens/MoreScreens/updateScreen.dart';
 import 'package:mycollegenetwork/services/userDetails.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -66,13 +66,23 @@ class Profile extends StatelessWidget {
                   ),
 
                   // ? will add later if required to do so
-                  // MaterialButton(
-                  //   color: Colors.black,
-                  //   shape: CircleBorder(),
-                  //   elevation: 0,
-                  //   child: Icon(Icons.edit),
-                  //   onPressed: () {},
-                  // ),
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: MaterialButton(
+                      color: Colors.black,
+                      shape: CircleBorder(),
+                      elevation: 0,
+                      child: Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UpdateUserInfo()),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
 
@@ -161,7 +171,7 @@ class UserInfoProfile extends StatelessWidget {
                           ListTile(
                             leading: IconButton(
                               onPressed: () => {
-                                launch('tel:' + phoneNumber),
+                                launch('tel:' + UserDetials.phoneNo.toString()),
                               },
                               icon: Icon(Icons.phone),
                             ),

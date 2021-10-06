@@ -8,4 +8,12 @@ class UserDetials{
   static int? noOfEvents;
   static String? profilePhotoUrl;
   static String? birthday;
+  static Map<String, bool?>? clubList = {
+    'PASC': false,
+    'PISB': false,
+    'CSI': false,
+    'EDC': false,
+    'DEBSOC': false,
+    'MUN' : false,
+  };
 }

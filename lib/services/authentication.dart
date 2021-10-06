@@ -8,6 +8,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
 
+Map<String, bool?>? clubListTemp = {
+    'PASC': false,
+    'PISB': false,
+    'CSI': false,
+    'EDC': false,
+    'DEBSOC': false,
+    'MUN' : false,
+  };
 class AuthenticationHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   get user => _auth.currentUser;
@@ -64,6 +72,7 @@ class AuthenticationHelper {
           "EventNo": 0,
           "ProfilePhotoUrl": "https://freesvg.org/img/abstract-user-flat-4.png",
           "Birthday": "01/01/2000",
+          "ClubList" : clubListTemp,
         }, SetOptions(merge: true))
         .then((value) => print("User Details Added"))
         .catchError((error) => print("Failed to add user: $error"));

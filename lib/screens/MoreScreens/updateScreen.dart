@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mycollegenetwork/services/postrequests.dart';
 import 'package:mycollegenetwork/services/userDetails.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 // ignore: must_be_immutable
 class UpdateUserInfo extends StatefulWidget {
@@ -9,6 +14,21 @@ class UpdateUserInfo extends StatefulWidget {
 }
 
 class _UpdateUserInfoState extends State<UpdateUserInfo> {
+  late File _pickedImage;
+  var isPicked = false;
+  void _pickImage() async {
+    ImagePicker imagePicker = new ImagePicker();
+    final pickedImageFile = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 25,
+      maxWidth: 150,
+    );
+    setState(() {
+      _pickedImage = File(pickedImageFile!.path);
+      isPicked = true;
+    });
+  }
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -37,16 +57,16 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(
-                              "Update User Info",
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
+                            // Text(
+                            //   "Update User Info",
+                            //   style: TextStyle(
+                            //     fontSize: 30,
+                            //     fontWeight: FontWeight.bold,
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
                             Text(
                               "Update the required details",
                               style: TextStyle(
@@ -58,6 +78,19 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                               height: 30,
                             )
                           ],
+                        ),
+                        CircleAvatar(
+                          radius: 40,
+                          // ignore: unnecessary_null_comparison
+                          backgroundImage: isPicked
+                              ? FileImage(_pickedImage) as ImageProvider
+                              : NetworkImage(
+                                  UserDetials.profilePhotoUrl.toString()),
+                        ),
+                        TextButton.icon(
+                          onPressed: _pickImage,
+                          icon: Icon(Icons.upload),
+                          label: Text("Choose Image from gallery"),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 40),
@@ -155,6 +188,13 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                                   )
                                 ],
                               ),
+                              Text(
+                                "Clubs",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                               SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
                                 child: Column(
@@ -200,6 +240,16 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                               onPressed: () async {
                                 FocusScope.of(context).unfocus();
                                 if (_formKey.currentState!.validate()) {
+                                  FirebaseAuth auth = FirebaseAuth.instance;
+                                  String uid = auth.currentUser!.uid.toString();
+                                  firebase_storage.Reference ref =
+                                      firebase_storage.FirebaseStorage.instance
+                                          .ref()
+                                          .child('User_Profile_Photos')
+                                          .child(uid + '.jpg');
+                                  await ref.putFile(_pickedImage);
+                                  UserDetials.profilePhotoUrl =
+                                      await ref.getDownloadURL();
                                   await updateUserDetails();
                                   Navigator.pop(context);
                                 }

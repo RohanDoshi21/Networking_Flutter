@@ -36,6 +36,9 @@ class GetUserData extends StatelessWidget {
           UserDetials.noOfEvents = data['EventNo'].toInt();
           UserDetials.profilePhotoUrl = data['ProfilePhotoUrl'].toString();
           UserDetials.birthday = data['Birthday'].toString();
+          // UserDetials.clubList = data['ClubList'];
+          print(data['ClubList'].runtimeType);
+          // json.decode(json.encode(internalLinkedHashMap)) as Map<String, dynamic>;
           return InitialPage();
         }
         return Center(child: CircularProgressIndicator());

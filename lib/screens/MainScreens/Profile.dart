@@ -1,6 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mycollegenetwork/screens/MoreScreens/updateScreen.dart';
+import 'package:mycollegenetwork/screens/updateScreen.dart';
 import 'package:mycollegenetwork/services/userDetails.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -31,7 +32,7 @@ class Profile extends StatelessWidget {
                     height: 150,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: NetworkImage(
+                          image: CachedNetworkImageProvider(
                               "https://i0.wp.com/iot.do/wp-content/uploads/sites/2/2016/03/10152610_750630574969118_2154222791899229104_n.jpg?w=851&ssl=1"),
                           fit: BoxFit.none),
                     ),
@@ -49,8 +50,7 @@ class Profile extends StatelessWidget {
                             backgroundColor: Theme.of(context).primaryColor,
                             child: CircleAvatar(
                               radius: 42,
-                              backgroundImage: NetworkImage(
-                                // "https://freesvg.org/img/abstract-user-flat-4.png",
+                              backgroundImage: CachedNetworkImageProvider(
                                 UserDetials.profilePhotoUrl.toString(),
                               ),
                             ),

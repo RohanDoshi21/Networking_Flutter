@@ -1,25 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-List notificationsSampleList = [
-  [
-    "Sample Notification",
-    "We are glad to have have you here welcome to our app \n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letra",
-    "30/08/2021",
-    "18:50"
-  ],
-  ["PASC", "Upcoming SIG at 6 pm on 31/08/2021", "30/08/2021", "18:45"],
-  ["PISB", "Upcoming SIG at 6 pm on 30/08/2021", "30/08/2021", "18:44"],
-  ["PCSB", "Upcoming SIG at 6 pm on 30/08/2021", "30/08/2021", "18:44"],
-  ["WEBDEV", "Upcoming SIG at 6 pm on 30/08/2021", "30/08/2021", "18:44"],
-  ["UDEMY", "Upcoming SIG at 6 pm on 30/08/2021", "30/08/2021", "18:44"],
-  ["COURSERA", "Upcoming SIG at 6 pm on 30/08/2021", "30/08/2021", "18:44"],
-  ["CLASS", "Upcoming SIG at 6 pm on 30/08/2021", "30/08/2021", "18:44"],
-];
-
-// COMPLETEDTODO: Add a button to dismis the notification from the list!
-//! Remove dismis    
 //! add a read more!
 //! Add a speaker and platform, link sessions
+
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
 
@@ -49,108 +34,130 @@ class _NotificationsState extends State<Notifications> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: notificationsSampleList.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: // LinearGradient(colors: [Color(0xFF4b6cb7), Color(0xFF182848)])),
-                          LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              colors: [
-                            // Color(0xFF12c2e9),
-                            // Color(0xFF21096e),
-                            Color(0xFF161D6F),
-                            // Color(0xFF0A1931),
-                            Color(0xFF150E56),
-                            Color(0xFF0A043C),
-                          ]),
-                    ),
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                            height: 10,
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('Notifications')
+                    .orderBy('createdAt', descending: true)
+                    .snapshots(),
+                builder: (ctx, AsyncSnapshot notificationsSnapshots) {
+                  if (notificationsSnapshots.connectionState ==
+                      ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  final _notification = notificationsSnapshots.data!.docs;
+                  return ListView.builder(
+                    itemCount: _notification.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          gradient: // LinearGradient(colors: [Color(0xFF4b6cb7), Color(0xFF182848)])),
+                              LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                // Color(0xFF12c2e9),
+                                // Color(0xFF21096e),
+                                Color(0xFF161D6F),
+                                // Color(0xFF0A1931),
+                                Color(0xFF150E56),
+                                Color(0xFF0A043C),
+                              ]),
+                        ),
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
                           ),
-                          Container(
-                            child: Text(
-                              notificationsSampleList[index][0],
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.white,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                height: 10,
                               ),
-                            ),
-                            width: MediaQuery.of(context).size.width * 0.8,
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Container(
-                            child: Text(
-                              notificationsSampleList[index][1],
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
+                              Container(
+                                child: Text(
+                                  _notification[index]['Title'],
+                                  // "Title",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.8,
                               ),
-                            ),
-                            width: MediaQuery.of(context).size.width * 0.8,
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          Text(
-                            "-" +
-                                notificationsSampleList[index][2] +
-                                " " +
-                                notificationsSampleList[index][3],
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Divider(
-                            color: Colors.grey,
-                          ),
-                          InkWell(
-                            child: Container(
-                              child: Text(
-                                "Read More",
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 18),
-                                textAlign: TextAlign.center,
+                              SizedBox(
+                                height: 16,
                               ),
-                              width: MediaQuery.of(context).size.width * 0.8,
-                            ),
-                            onTap: () {
-                              // // print(notificationsSampleList[index]);
-                              // setState(() {
-                              //   notificationsSampleList.removeAt(index);
-                              // });
-                              // // print(notificationsSampleList);
-                              // todo add a pop up with a specefic format
-                            },
+                              Container(
+                                child: Text(
+                                  _notification[index]['Description'],
+                                  // "Hi",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.8,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                // Code to format the date as recieved from firebase
+                                DateFormat.yMd()
+                                    .add_jm()
+                                    .format(_notification[index]['createdAt']
+                                        .toDate())
+                                    .toString(),
+                                // "hello",
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                color: Colors.grey,
+                              ),
+                              InkWell(
+                                child: Container(
+                                  child: Text(
+                                    "Read More",
+                                    style: TextStyle(
+                                        color: Colors.red, fontSize: 18),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                ),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return _CustomBox(
+                                          notification: _notification[index]);
+                                    },
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -158,6 +165,165 @@ class _NotificationsState extends State<Notifications> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _CustomBox extends StatelessWidget {
+  final notification;
+  _CustomBox({
+    required this.notification,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      backgroundColor: Colors.transparent,
+      child: dialogContent(context),
+    );
+  }
+
+  dialogContent(BuildContext context) {
+    var deviceHeight = MediaQuery.of(context).size.height;
+    return Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.only(top: 20, bottom: 10, left: 20, right: 20),
+          decoration: BoxDecoration(
+            color: Color(0xFF150E56).withOpacity(0.98),
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(17),
+            boxShadow: [
+              BoxShadow(color: Colors.black, offset: Offset(0.0, 16.0)),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: deviceHeight * 0.02),
+                alignment: Alignment.center,
+                child: Text(
+                  notification['Title'],
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 26,
+              ),
+              Container(
+                child: Text(
+                  notification['Description'],
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Container(
+                child: notification['Eminent Speaker'] != null
+                    ? Text(
+                        "Eminent Speaker: " + notification['Eminent Speaker'],
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(
+                        "Eminent Speaker: -",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Container(
+                child: notification['Link'] != null
+                    ? Text(
+                        "Link: " + notification['Link'],
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(
+                        "Link: -",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Container(
+                child: notification['Date-Time'] != null
+                    ? Text(
+                        "Date-Time: " + notification['Date-Time'],
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(
+                        "Date-Time: -",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Center(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: deviceHeight * 0.055,
+                    width: deviceHeight * 0.1,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(17),
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Colors.white,
+                            Colors.grey,
+                          ]),
+                    ),
+                    child: Text(
+                      "OK",
+                      style: TextStyle(fontSize: 18, color: Colors.grey[900]),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

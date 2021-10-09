@@ -27,7 +27,7 @@ class AppDrawer extends StatelessWidget {
                           child: CircleAvatar(
                             radius: 30,
                             backgroundImage: NetworkImage(
-                                UserDetials.profilePhotoUrl.toString()),
+                                UserDetails.profilePhotoUrl.toString()),
                             backgroundColor: Colors.amber[50],
                           ),
                           onTap: () {}),
@@ -39,12 +39,12 @@ class AppDrawer extends StatelessWidget {
                           children: [
                             // GetUserName(uid, 18),
                             Text(
-                              UserDetials.name.toString(),
+                              UserDetails.name.toString(),
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),
                             Text(
-                              UserDetials.email.toString(),
+                              UserDetails.email.toString(),
                               style: TextStyle(color: Colors.white),
                             ),
                           ],

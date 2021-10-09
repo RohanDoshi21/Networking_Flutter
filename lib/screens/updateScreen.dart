@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -74,7 +74,7 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                         backgroundImage: isPicked
                             ? FileImage(_pickedImage) as ImageProvider
                             : NetworkImage(
-                                UserDetials.profilePhotoUrl.toString()),
+                                UserDetails.profilePhotoUrl.toString()),
                       ),
                       TextButton.icon(
                         onPressed: _pickImage,
@@ -107,7 +107,7 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                                   },
                                   keyboardType: TextInputType.name,
                                   initialValue:
-                                      UserDetials.description.toString(),
+                                      UserDetails.description.toString(),
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.symmetric(
@@ -122,7 +122,7 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                                             BorderSide(color: Colors.grey)),
                                   ),
                                   onChanged: (value) {
-                                    UserDetials.description = value;
+                                    UserDetails.description = value;
                                   },
                                 ),
                                 SizedBox(
@@ -130,51 +130,69 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                                 )
                               ],
                             ),
-                            Column(
+                            // Column(
+                            Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Birthdate",
+                                  "Birthdate:  ",
                                   style: TextStyle(
-                                    fontSize: 15,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 5,
+                                Text(
+                                  DateFormat.yMMMMd()
+                                      .format(UserDetails.birthday as DateTime)
+                                      .toString(),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
                                 ),
-                                TextFormField(
-                                  validator: (val) {
-                                    if (val![2] != "/" ||
-                                        val[5] != "/" ||
-                                        val.length != 10) {
-                                      return "Syntax not correct (dd/mm/yyyy)";
-                                    } else
-                                      return null;
+                                Spacer(
+                                  flex: 2,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showDatePicker(
+                                            context: context,
+                                            initialDate: UserDetails.birthday
+                                                as DateTime,
+                                            firstDate: DateTime(1995),
+                                            lastDate: DateTime.now())
+                                        .then((value) {
+                                      setState(() {
+                                        UserDetails.birthday = value;
+                                      });
+                                    });
                                   },
-                                  keyboardType: TextInputType.name,
-                                  initialValue: UserDetials.birthday.toString(),
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 25,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(17),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topRight,
+                                        end: Alignment.bottomLeft,
+                                        colors: [
+                                          Colors.white,
+                                          Colors.grey,
+                                        ],
                                       ),
                                     ),
-                                    border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.grey)),
+                                    child: Text(
+                                      "Pick",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.grey[900]),
+                                    ),
                                   ),
-                                  onChanged: (value) {
-                                    UserDetials.birthday = value;
-                                  },
                                 ),
-                                SizedBox(
-                                  height: 30,
-                                )
                               ],
+                            ),
+                            SizedBox(
+                              height: 30,
                             ),
                             Text(
                               "Clubs",
@@ -184,15 +202,15 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                               ),
                             ),
                             Column(
-                              children: UserDetials.clubList!.keys
+                              children: UserDetails.clubList!.keys
                                   .map(
                                     (clubName) => CheckboxListTile(
                                       title: Text(clubName),
-                                      value: UserDetials.clubList![clubName],
+                                      value: UserDetails.clubList![clubName],
                                       onChanged: (bool? value) {
                                         setState(
                                           () {
-                                            UserDetials.clubList![clubName] =
+                                            UserDetails.clubList![clubName] =
                                                 value;
                                           },
                                         );
@@ -231,15 +249,15 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                                         .child('User_Profile_Photos')
                                         .child(uid + '.jpg');
                                 await ref.putFile(_pickedImage);
-                                UserDetials.profilePhotoUrl =
+                                UserDetails.profilePhotoUrl =
                                     await ref.getDownloadURL();
                               }
                               if (_formKey.currentState!.validate()) {
-                                UserDetials.noOfClubs = 0;
-                                UserDetials.clubList!.forEach((key, value) {
+                                UserDetails.noOfClubs = 0;
+                                UserDetails.clubList!.forEach((key, value) {
                                   if (value == true) {
-                                    UserDetials.noOfClubs =
-                                        (UserDetials.noOfClubs! + 1);
+                                    UserDetails.noOfClubs =
+                                        (UserDetails.noOfClubs! + 1);
                                   }
                                 });
                                 await updateUserDetails();

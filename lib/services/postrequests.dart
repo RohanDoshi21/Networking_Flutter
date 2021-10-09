@@ -10,11 +10,11 @@ Future<void> updateUserDetails() async {
     usercollection
         .doc(uid)
         .update({
-          "Description": UserDetials.description,
-          "Birthday": UserDetials.birthday,
-          "ClubList" : UserDetials.clubList,
-          "ProfilePhotoUrl" : UserDetials.profilePhotoUrl,
-          "ClubNo" : UserDetials.noOfClubs,
+          "Description": UserDetails.description,
+          "Birthday": UserDetails.birthday,
+          "ClubList" : UserDetails.clubList,
+          "ProfilePhotoUrl" : UserDetails.profilePhotoUrl,
+          "ClubNo" : UserDetails.noOfClubs,
         })
         .then((value) => print("User Details Added"))
         .catchError((error) => print("Failed to add user: $error"));

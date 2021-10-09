@@ -1,4 +1,4 @@
-class UserDetials{
+class UserDetails{
   static String? name;
   static String? description;
   static String? rollNo;
@@ -7,7 +7,7 @@ class UserDetials{
   static int? noOfClubs;
   static int? noOfEvents;
   static String? profilePhotoUrl;
-  static String? birthday;
+  static DateTime? birthday;
   static Map<String, bool?>? clubList = {
     'PASC': false,
     'PISB': false,

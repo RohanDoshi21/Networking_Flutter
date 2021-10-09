@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mycollegenetwork/screens/updateScreen.dart';
 import 'package:mycollegenetwork/services/userDetails.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 String uid = auth.currentUser!.uid.toString();
@@ -51,14 +52,14 @@ class Profile extends StatelessWidget {
                             child: CircleAvatar(
                               radius: 42,
                               backgroundImage: CachedNetworkImageProvider(
-                                UserDetials.profilePhotoUrl.toString(),
+                                UserDetails.profilePhotoUrl.toString(),
                               ),
                             ),
                           ),
                         ),
                         // GetUserName(uid, 25),
                         Text(
-                          UserDetials.name.toString(),
+                          UserDetails.name.toString(),
                           style: TextStyle(fontSize: 25, color: Colors.white),
                         )
                       ],
@@ -149,7 +150,7 @@ class UserInfoProfile extends StatelessWidget {
                             title: Text("About Me"),
                             subtitle: Text(
                               // "This is just short description about the person we can include all the thing things\nAchievements\nRating etc",
-                              UserDetials.description.toString(),
+                              UserDetails.description.toString(),
                             ),
                           ),
                           ListTile(
@@ -158,7 +159,7 @@ class UserInfoProfile extends StatelessWidget {
                             subtitle:
                                 // GetUserRollNo(uid, 13),
                                 Text(
-                              UserDetials.rollNo.toString(),
+                              UserDetails.rollNo.toString(),
                               style:
                                   TextStyle(color: Colors.white, fontSize: 13),
                             ),
@@ -166,21 +167,21 @@ class UserInfoProfile extends StatelessWidget {
                           ListTile(
                             leading: Icon(Icons.email),
                             title: Text("Email"),
-                            subtitle: Text(UserDetials.email.toString()),
+                            subtitle: Text(UserDetails.email.toString()),
                           ),
                           ListTile(
                             leading: IconButton(
                               onPressed: () => {
-                                launch('tel:' + UserDetials.phoneNo.toString()),
+                                launch('tel:' + UserDetails.phoneNo.toString()),
                               },
                               icon: Icon(Icons.phone),
                             ),
                             title: Text("Phone"),
-                            subtitle: Text(UserDetials.phoneNo.toString()),
+                            subtitle: Text(UserDetails.phoneNo.toString()),
                             trailing: IconButton(
                               onPressed: () => {
                                 launch('whatsapp://send?phone=' +
-                                    UserDetials.phoneNo.toString()),
+                                    UserDetails.phoneNo.toString()),
                               },
                               icon: Icon(Icons.whatshot_rounded),
                             ),
@@ -188,17 +189,19 @@ class UserInfoProfile extends StatelessWidget {
                           ListTile(
                             leading: Icon(Icons.cake),
                             title: Text("Birthday"),
-                            subtitle: Text(UserDetials.birthday.toString()),
+                            subtitle: Text(DateFormat.yMMMMd()
+                                      .format(UserDetails.birthday as DateTime)
+                                      .toString()),
                           ),
                           ListTile(
                             leading: Icon(Icons.local_play),
                             title: Text("No of Clubs"),
-                            subtitle: Text(UserDetials.noOfClubs.toString()),
+                            subtitle: Text(UserDetails.noOfClubs.toString()),
                           ),
                           ListTile(
                             leading: Icon(Icons.star),
                             title: Text("No of Events participated!"),
-                            subtitle: Text(UserDetials.noOfEvents.toString()),
+                            subtitle: Text(UserDetails.noOfEvents.toString()),
                           ),
                         ],
                       ),

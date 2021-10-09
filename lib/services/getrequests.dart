@@ -27,16 +27,16 @@ class GetUserData extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
-          UserDetials.name = data['Name'].toString();
-          UserDetials.phoneNo = data['PhoneNo'].toString();
-          UserDetials.email = data['Email'].toString();
-          UserDetials.description = data['Description'].toString();
-          UserDetials.rollNo = data['RollNo'].toString();
-          UserDetials.noOfClubs = data['ClubNo'].toInt();
-          UserDetials.noOfEvents = data['EventNo'].toInt();
-          UserDetials.profilePhotoUrl = data['ProfilePhotoUrl'].toString();
-          UserDetials.birthday = data['Birthday'].toString();
-          UserDetials.clubList = Map<String, bool?>.from(data['ClubList']);
+          UserDetails.name = data['Name'].toString();
+          UserDetails.phoneNo = data['PhoneNo'].toString();
+          UserDetails.email = data['Email'].toString();
+          UserDetails.description = data['Description'].toString();
+          UserDetails.rollNo = data['RollNo'].toString();
+          UserDetails.noOfClubs = data['ClubNo'].toInt();
+          UserDetails.noOfEvents = data['EventNo'].toInt();
+          UserDetails.profilePhotoUrl = data['ProfilePhotoUrl'].toString();
+          UserDetails.birthday = data['Birthday'].toDate();
+          UserDetails.clubList = Map<String, bool?>.from(data['ClubList']);
           // UserDetials.clubList = data['ClubList'] as Map<String, bool?>;
           // print(UserDetials.clubList);
           // print(data['CLubList'].runtimeType);

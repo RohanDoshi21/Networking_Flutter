@@ -30,11 +30,6 @@ class _InitialPageState extends State<InitialPage> {
     });
   }
 
-  // void initState() {
-  //   condition();
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +45,7 @@ class _InitialPageState extends State<InitialPage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
-            label: 'Notifcations',
+            label: 'Events',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_outlined),

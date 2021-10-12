@@ -25,7 +25,7 @@ class _NotificationsState extends State<Notifications> {
                 vertical: 20,
               ),
               child: Text(
-                "Notifications and Updates !",
+                "Events",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.red,
@@ -37,7 +37,7 @@ class _NotificationsState extends State<Notifications> {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('Notifications')
-                    .orderBy('createdAt', descending: true)
+                    .orderBy('Date', descending: true)
                     .snapshots(),
                 builder: (ctx, AsyncSnapshot notificationsSnapshots) {
                   if (notificationsSnapshots.connectionState ==
@@ -113,12 +113,19 @@ class _NotificationsState extends State<Notifications> {
                               ),
                               Text(
                                 // Code to format the date as recieved from firebase
-                                DateFormat.yMd()
-                                    .add_jm()
-                                    .format(_notification[index]['createdAt']
-                                        .toDate())
-                                    .toString(),
+                                // DateFormat.yMd()
+                                //     .add_jm()
+                                //     .format(_notification[index]['createdAt']
+                                //         .toDate())
+                                //     .toString(),
                                 // "hello",
+                                "Event on: " +
+                                    DateFormat.yMd()
+                                        .format(_notification[index]['Date']
+                                            .toDate())
+                                        .toString() +
+                                    " at " +
+                                    _notification[index]['Time'],
                                 textAlign: TextAlign.end,
                                 style: TextStyle(
                                   fontStyle: FontStyle.italic,

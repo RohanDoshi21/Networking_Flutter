@@ -169,23 +169,16 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                                   child: Container(
                                     alignment: Alignment.center,
                                     height: 25,
-                                    width: 50,
+                                    width: 70,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(17),
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topRight,
-                                        end: Alignment.bottomLeft,
-                                        colors: [
-                                          Colors.white,
-                                          Colors.grey,
-                                        ],
-                                      ),
+                                      color: Colors.blue,
                                     ),
                                     child: Text(
                                       "Select",
                                       style: TextStyle(
                                           fontSize: 20,
-                                          color: Colors.grey[900]),
+                                          color: Colors.white),
                                     ),
                                   ),
                                 ),

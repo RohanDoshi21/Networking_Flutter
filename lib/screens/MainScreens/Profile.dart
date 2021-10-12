@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mycollegenetwork/screens/updateScreen.dart';
+import 'package:mycollegenetwork/screens/MoreScreens/updateScreen.dart';
 import 'package:mycollegenetwork/services/userDetails.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';

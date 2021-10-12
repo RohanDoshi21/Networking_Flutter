@@ -182,7 +182,7 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
                                       ),
                                     ),
                                     child: Text(
-                                      "Pick",
+                                      "Select",
                                       style: TextStyle(
                                           fontSize: 20,
                                           color: Colors.grey[900]),

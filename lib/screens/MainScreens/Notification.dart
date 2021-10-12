@@ -229,72 +229,58 @@ class _CustomBox extends StatelessWidget {
                 height: 16,
               ),
               Container(
-                child: notification['Eminent Speaker'] != null
-                    ? Text(
-                        "Eminent Speaker: " + notification['Eminent Speaker'],
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Text(
-                        "Eminent Speaker: -",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-              ),
+                  child: (notification['Eminent Speaker'].length > 0)
+                      ? Text(
+                          "Eminent Speaker: " + notification['Eminent Speaker'],
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        )
+                      : null),
               SizedBox(
                 height: 16,
               ),
               Container(
-                child: notification['Link'] != null
-                    ? Text(
-                        "Link: " + notification['Link'],
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Text(
-                        "Link: -",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-              ),
+                  child: (notification['Link'].length > 0)
+                      ? Text(
+                          "Link: " + notification['Link'],
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        )
+                      : null),
               SizedBox(
                 height: 16,
               ),
               Container(
-                child: notification['Date-Time'] != null
-                    ? Text(
-                        "Date-Time: " +
-                            DateFormat.yMMMMd()
-                                .add_jm()
-                                .format(notification['Date-Time'].toDate())
-                                .toString(),
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Text(
-                        "Date-Time: -",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-              ),
+                  child: (notification['Date'] != null)
+                      ? Text(
+                          "Date: " +
+                              DateFormat.yMMMMd()
+                                  .format(notification['Date'].toDate())
+                                  .toString(),
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        )
+                      : null),
+              Container(
+                  child: notification['Time'] != null
+                      ? Text(
+                          "Time: " + notification['Time'],
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        )
+                      : null),
               SizedBox(
                 height: 20,
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycollegenetwork/screens/MoreScreens/eventPostForm.dart';
 import 'package:mycollegenetwork/services/authentication.dart';
 import 'package:mycollegenetwork/services/userDetails.dart';
 
@@ -96,7 +97,12 @@ class AppDrawer extends StatelessWidget {
                           style: TextStyle(color: Colors.white),
                         ),
                         onTap: () {
-
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EventPost_Admin(),
+                            ),
+                          );
                         },
                       )
                     : null),

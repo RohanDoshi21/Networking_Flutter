@@ -74,6 +74,7 @@ class AuthenticationHelper {
           "ProfilePhotoUrl": "https://freesvg.org/img/abstract-user-flat-4.png",
           "Birthday": DateTime(2000),
           "ClubList": clubListTemp,
+          "IsAdmin" : false,
         }, SetOptions(merge: true))
         .then((value) => print("User Details Added"))
         .catchError((error) => print("Failed to add user: $error"));

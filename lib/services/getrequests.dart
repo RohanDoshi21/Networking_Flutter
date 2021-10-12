@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mycollegenetwork/screens/InitialPage.dart';
@@ -37,10 +36,7 @@ class GetUserData extends StatelessWidget {
           UserDetails.profilePhotoUrl = data['ProfilePhotoUrl'].toString();
           UserDetails.birthday = data['Birthday'].toDate();
           UserDetails.clubList = Map<String, bool?>.from(data['ClubList']);
-          // UserDetials.clubList = data['ClubList'] as Map<String, bool?>;
-          // print(UserDetials.clubList);
-          // print(data['CLubList'].runtimeType);
-          // json.decode(json.encode(internalLinkedHashMap)) as Map<String, dynamic>;
+          UserDetails.isAdmin = data['IsAdmin'];
           return InitialPage();
         }
         return Center(child: CircularProgressIndicator());

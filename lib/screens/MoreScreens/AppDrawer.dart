@@ -9,9 +9,6 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FirebaseAuth auth = FirebaseAuth.instance;
-    // String uid = auth.currentUser!.uid.toString();
-    // String email = auth.currentUser!.email.toString();
     return Drawer(
       child: Container(
         child: ListView(
@@ -89,6 +86,20 @@ class AppDrawer extends StatelessWidget {
               ),
               onTap: () {},
             ),
+            Container(
+                // If user is admin enable admin session
+                child: (UserDetails.isAdmin == true)
+                    ? ListTile(
+                        leading: Icon(Icons.laptop),
+                        title: Text(
+                          'Admin',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {
+
+                        },
+                      )
+                    : null),
           ],
         ),
       ),

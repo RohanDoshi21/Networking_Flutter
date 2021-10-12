@@ -16,4 +16,5 @@ class UserDetails{
     'DEBSOC': false,
     'MUN' : false,
   };
+  static bool? isAdmin;
 }

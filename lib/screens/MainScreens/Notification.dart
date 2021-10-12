@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';  //Library for date formattor
+import 'package:intl/intl.dart'; //Library for date formattor
 
 //! add a read more!
 //! Add a speaker and platform, link sessions
@@ -275,7 +275,11 @@ class _CustomBox extends StatelessWidget {
               Container(
                 child: notification['Date-Time'] != null
                     ? Text(
-                        "Date-Time: " + notification['Date-Time'],
+                        "Date-Time: " +
+                            DateFormat.yMMMMd()
+                                .add_jm()
+                                .format(notification['Date-Time'].toDate())
+                                .toString(),
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 16,

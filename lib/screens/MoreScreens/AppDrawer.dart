@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mycollegenetwork/screens/MoreScreens/eventPostForm.dart';
+import 'package:mycollegenetwork/screens/AdminPages/AdminHomeScreen.dart';
 import 'package:mycollegenetwork/services/authentication.dart';
 import 'package:mycollegenetwork/services/userDetails.dart';
 
@@ -100,7 +100,7 @@ class AppDrawer extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EventPost_Admin(),
+                              builder: (context) => AdminHome(),
                             ),
                           );
                         },

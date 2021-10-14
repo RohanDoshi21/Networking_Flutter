@@ -5,14 +5,14 @@ import 'package:intl/intl.dart'; //Library for date formattor
 //! add a read more!
 //! Add a speaker and platform, link sessions
 
-class Notifications extends StatefulWidget {
-  const Notifications({Key? key}) : super(key: key);
+class Events extends StatefulWidget {
+  const Events({Key? key}) : super(key: key);
 
   @override
-  _NotificationsState createState() => _NotificationsState();
+  _EventsState createState() => _EventsState();
 }
 
-class _NotificationsState extends State<Notifications> {
+class _EventsState extends State<Events> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +22,7 @@ class _NotificationsState extends State<Notifications> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(
-                vertical: 20,
+                vertical: 5,
               ),
               child: Text(
                 "Events",

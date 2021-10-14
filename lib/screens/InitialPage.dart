@@ -4,7 +4,7 @@ import 'MoreScreens/AppDrawer.dart';
 import 'MainScreens/Calender.dart';
 import 'MainScreens/Chats.dart';
 import 'MainScreens/Home.dart';
-import 'MainScreens/Notification.dart';
+import 'MainScreens/Events.dart';
 import 'MainScreens/Profile.dart';
 
 class InitialPage extends StatefulWidget {
@@ -16,7 +16,7 @@ class InitialPage extends StatefulWidget {
 class _InitialPageState extends State<InitialPage> {
   int _selectedIndex = 2;
   static const List<Widget> pages = <Widget>[
-    Notifications(),
+    Events(),
     Chats(),
     Home(),
     Calender(),
@@ -36,8 +36,10 @@ class _InitialPageState extends State<InitialPage> {
       drawer: AppDrawer(),
       appBar: AppBar(
         title: Text("My College Network"),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
-      body: pages[_selectedIndex],
+      body: SafeArea(child: pages[_selectedIndex]),
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,

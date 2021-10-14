@@ -32,6 +32,10 @@ class Profile extends StatelessWidget {
                   Ink(
                     height: 150,
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(50),
+                        
+                      ),
                       image: DecorationImage(
                           image: CachedNetworkImageProvider(
                               "https://i0.wp.com/iot.do/wp-content/uploads/sites/2/2016/03/10152610_750630574969118_2154222791899229104_n.jpg?w=851&ssl=1"),
@@ -190,8 +194,8 @@ class UserInfoProfile extends StatelessWidget {
                             leading: Icon(Icons.cake),
                             title: Text("Birthday"),
                             subtitle: Text(DateFormat.yMMMMd()
-                                      .format(UserDetails.birthday as DateTime)
-                                      .toString()),
+                                .format(UserDetails.birthday as DateTime)
+                                .toString()),
                           ),
                           ListTile(
                             leading: Icon(Icons.local_play),

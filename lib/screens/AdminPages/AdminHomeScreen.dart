@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mycollegenetwork/screens/MoreScreens/eventPostForm.dart';
+import 'package:mycollegenetwork/screens/AdminPages/eventPostForm.dart';
 
 class AdminHome extends StatelessWidget {
   const AdminHome({Key? key}) : super(key: key);

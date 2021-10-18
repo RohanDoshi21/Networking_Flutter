@@ -9,12 +9,6 @@ import 'package:intl/intl.dart';
 FirebaseAuth auth = FirebaseAuth.instance;
 String uid = auth.currentUser!.uid.toString();
 String email = auth.currentUser!.email.toString();
-List clubDummtList = [
-  "PASC",
-  "PISB",
-  "PCSB",
-  "EDC",
-];
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -98,12 +92,12 @@ class Profile extends StatelessWidget {
               // Container(
               //   height: 100.0,
               //   child: ListView.builder(
-              //       itemCount: clubDummtList.length,
+              //       itemCount: clubDummyList.length,
               //       itemBuilder: (context, index) {
               //         return Container(
               //           height: 20,
               //           width: double.infinity,
-              //           child: Text(clubDummtList[index]),
+              //           child: Text(clubDummyList[index]),
               //         );
               //       }),
               // ),

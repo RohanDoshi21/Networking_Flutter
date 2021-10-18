@@ -21,7 +21,7 @@ class _UpdateUserInfoState extends State<UpdateUserInfo> {
     ImagePicker imagePicker = new ImagePicker();
     final pickedImageFile = await imagePicker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 25,
+      imageQuality: 75,
       maxWidth: 150,
     );
     setState(() {

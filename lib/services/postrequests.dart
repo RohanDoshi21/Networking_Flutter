@@ -16,7 +16,7 @@ Future<void> updateUserDetails() async {
           "ProfilePhotoUrl" : UserDetails.profilePhotoUrl,
           "ClubNo" : UserDetails.noOfClubs,
         })
-        .then((value) => print("User Details Added"))
-        .catchError((error) => print("Failed to add user: $error"));
+        .then((value) => print("User Details updated"))
+        .catchError((error) => print("Failed to update user: $error"));
     return;
 }

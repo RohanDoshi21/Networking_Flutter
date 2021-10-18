@@ -1,6 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; //Library for date formattor
+import 'package:intl/intl.dart'; //Library for date formatter
 
 //! add a read more!
 //! Add a speaker and platform, link sessions
@@ -36,7 +37,7 @@ class _EventsState extends State<Events> {
             Expanded(
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
-                    .collection('Notifications')
+                    .collection('Events')
                     .orderBy('Date', descending: true)
                     .snapshots(),
                 builder: (ctx, AsyncSnapshot notificationsSnapshots) {
@@ -112,7 +113,7 @@ class _EventsState extends State<Events> {
                                 height: 16,
                               ),
                               Text(
-                                // Code to format the date as recieved from firebase
+                                // Code to format the date as received from firebase
                                 // DateFormat.yMd()
                                 //     .add_jm()
                                 //     .format(_notification[index]['createdAt']
@@ -210,6 +211,17 @@ class _CustomBox extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                child: notification['Image'].length > 0
+                    ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CachedNetworkImage(imageUrl: notification['Image']),
+                        SizedBox(height: 15,),
+                      ],
+                    )
+                    : null,
+              ),
+              Container(
                 margin: EdgeInsets.symmetric(horizontal: deviceHeight * 0.02),
                 alignment: Alignment.center,
                 child: Text(
@@ -237,32 +249,41 @@ class _CustomBox extends StatelessWidget {
               ),
               Container(
                   child: (notification['Eminent Speaker'].length > 0)
-                      ? Text(
-                          "Eminent Speaker: " + notification['Eminent Speaker'],
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
+                      ? Column(
+                          children: [
+                            Text(
+                              "Eminent Speaker: " +
+                                  notification['Eminent Speaker'],
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                          ],
                         )
                       : null),
-              SizedBox(
-                height: 16,
-              ),
               Container(
                   child: (notification['Link'].length > 0)
-                      ? Text(
-                          "Link: " + notification['Link'],
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
+                      ? Column(
+                          children: [
+                            Text(
+                              "Link: " + notification['Link'],
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                          ],
                         )
                       : null),
-              SizedBox(
-                height: 16,
-              ),
               Container(
                   child: (notification['Date'] != null)
                       ? Text(

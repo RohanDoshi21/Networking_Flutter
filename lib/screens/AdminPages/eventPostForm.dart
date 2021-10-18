@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 // ignore: camel_case_types
 class EventPost_Admin extends StatefulWidget {
@@ -12,6 +15,21 @@ class EventPost_Admin extends StatefulWidget {
 
 // ignore: camel_case_types
 class _EventPost_AdminState extends State<EventPost_Admin> {
+  late File _pickedImage;
+  var isPicked = false;
+  void _pickImage() async {
+    ImagePicker imagePicker = new ImagePicker();
+    final pickedImageFile = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 85,
+      maxWidth: 800,
+    );
+    setState(() {
+      _pickedImage = File(pickedImageFile!.path);
+      isPicked = true;
+    });
+  }
+
   TextEditingController titleController = TextEditingController();
   String title = '';
   TextEditingController descriptionController = TextEditingController();
@@ -20,6 +38,8 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
   String eminentSpeaker = '';
   TextEditingController linkController = TextEditingController();
   String link = '';
+
+  String imageUrl = '';
 
   DateTime eventDate = DateTime.now();
   TimeOfDay time = TimeOfDay.now();
@@ -228,12 +248,75 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                 SizedBox(
                   height: 20,
                 ),
+                Container(
+                  child: Column(
+                    children: [
+                      Row(children: [
+                        Text(
+                          "Select Image",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Spacer(flex: 2),
+                        GestureDetector(
+                          onTap: () {
+                            _pickImage();
+                            FocusScope.of(context).unfocus();
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 25,
+                            width: 70,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(17),
+                              color: Colors.blue,
+                            ),
+                            child: Text(
+                              "Select",
+                              style: TextStyle(
+                                  fontSize: 18, color: Colors.grey[900]),
+                            ),
+                          ),
+                        ),
+                      ]),
+                      Container(
+                        child: isPicked
+                            ? Container(
+                                child: Image(
+                                  image: FileImage(_pickedImage),
+                                ),
+                              )
+                            : null,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width * 0.6,
                   height: 40,
-                  onPressed: () {
+                  onPressed: () async {
                     FocusScope.of(context).unfocus();
-                    FirebaseFirestore.instance.collection('Notifications').add({
+                    if (isPicked) {
+                      var time =
+                          DateTime.now().millisecondsSinceEpoch.toString();
+
+                      // FirebaseAuth auth = FirebaseAuth.instance;
+                      // String uid = auth.currentUser!.uid.toString();
+                      firebase_storage.Reference ref = firebase_storage
+                          .FirebaseStorage.instance
+                          .ref()
+                          .child('Event_images')
+                          .child('$time');
+                      await ref.putFile(_pickedImage);
+                      imageUrl = await ref.getDownloadURL();
+                    }
+
+                    FirebaseFirestore.instance.collection('Events').add({
                       'Title': title,
                       'createdAt': Timestamp.now(),
                       'Description': description,
@@ -241,11 +324,12 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                       'Link': link,
                       'Date': eventDate,
                       'Time': time.format(context).toString(),
+                      'Image': imageUrl,
                     }).then((value) {
                       showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
-                          title: Text("Event has been added sucessfully"),
+                          title: Text("Event has been added successfully"),
                           // content: Text("T"),
                           actions: <Widget>[
                             MaterialButton(
@@ -264,6 +348,7 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                         eminentController.clear();
                         eventDate = DateTime.now();
                         time = TimeOfDay.now();
+                        isPicked = false;
                       });
                     });
                   },

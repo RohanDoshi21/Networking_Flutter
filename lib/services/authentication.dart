@@ -75,6 +75,7 @@ class AuthenticationHelper {
           "Birthday": DateTime(2000),
           "ClubList": clubListTemp,
           "IsAdmin" : false,
+          "Uid" : uid,
         }, SetOptions(merge: true))
         .then((value) => print("User Details Added"))
         .catchError((error) => print("Failed to add user: $error"));

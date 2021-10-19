@@ -37,6 +37,7 @@ class GetUserData extends StatelessWidget {
           UserDetails.birthday = data['Birthday'].toDate();
           UserDetails.clubList = Map<String, bool?>.from(data['ClubList']);
           UserDetails.isAdmin = data['IsAdmin'];
+          UserDetails.uid = data['Uid'];
           return InitialPage();
         }
         return Center(child: CircularProgressIndicator());

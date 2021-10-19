@@ -17,4 +17,5 @@ class UserDetails{
     'MUN' : false,
   };
   static bool? isAdmin;
+  static String? uid;
 }

@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; //Library for date formatter
+import 'package:intl/intl.dart';
+import 'package:mycollegenetwork/services/userDetails.dart'; //Library for date formatter
 
 //! add a read more!
 //! Add a speaker and platform, link sessions
+// String noOfParticipants = "0";
 
 class Events extends StatefulWidget {
   const Events({Key? key}) : super(key: key);
@@ -14,6 +16,17 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
+  // Future _getParticipants(uid) async {
+  //   FirebaseFirestore.instance
+  //       .collection("Events")
+  //       .doc(uid)
+  //       .collection("UserDetails").get().then((_val) {
+  //         setState(() {
+  //           noOfParticipants = _val.docs.length.toString();
+  //         });
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -151,7 +164,35 @@ class _EventsState extends State<Events> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
                                 ),
-                                onTap: () {
+                                onTap: () async {
+                                  // print("Hello");
+                                  // FutureBuilder(
+                                  //   future: _getParticipants(
+                                  //       _notification[index]['id']),
+                                  //   builder: (BuildContext context,
+                                  //       AsyncSnapshot snapshot) {
+                                  //     if (snapshot.hasData) {
+                                  //       showDialog(
+                                  //         context: context,
+                                  //         builder: (context) {
+                                  //           return _CustomBox(
+                                  //               notification:
+                                  //                   _notification[index]);
+                                  //         },
+                                  //       );
+                                  //     }
+                                  //     return CircularProgressIndicator();
+                                  //   },
+                                  // );
+                                  // await _getParticipants(_notification[index]['id']);
+                                  // await FirebaseFirestore.instance
+                                  //     .collection("Events")
+                                  //     .doc(_notification[index]['id'])
+                                  //     .collection("UserDetails").get().then((_val) {
+                                  //   setState(() {
+                                  //     noOfParticipants = _val.docs.length.toString();
+                                  //   });
+                                  // });
                                   showDialog(
                                     context: context,
                                     builder: (context) {
@@ -213,12 +254,14 @@ class _CustomBox extends StatelessWidget {
               Container(
                 child: notification['Image'].length > 0
                     ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CachedNetworkImage(imageUrl: notification['Image']),
-                        SizedBox(height: 15,),
-                      ],
-                    )
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CachedNetworkImage(imageUrl: notification['Image']),
+                          SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      )
                     : null,
               ),
               Container(
@@ -312,27 +355,50 @@ class _CustomBox extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
+              Container(
+                child: Text("No of participants: " + notification['Participants'].toString()),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               GestureDetector(
                 onTap: () {
+                  // print(UserDetails.uid);
+                  FirebaseFirestore.instance
+                      .collection('Events')
+                      .doc(notification['id'])
+                      .collection('UserDetails')
+                      .doc(UserDetails.uid)
+                      .set({
+                    'Name': UserDetails.name,
+                    'RollNo': UserDetails.rollNo,
+                    'Email': UserDetails.email,
+                    'PhoneNo': UserDetails.phoneNo,
+                  });
+                  FirebaseFirestore.instance
+                      .collection('Events')
+                      .doc(notification['id']).update({
+                    'Participants': FieldValue.increment(1)
+                  });
                   Navigator.pop(context);
                 },
                 child: Center(
                   child: Container(
                     alignment: Alignment.center,
                     height: deviceHeight * 0.055,
-                    width: deviceHeight * 0.1,
+                    width: deviceHeight * 0.2,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(17),
                       gradient: LinearGradient(
                           begin: Alignment.topRight,
                           end: Alignment.bottomLeft,
                           colors: [
-                            Colors.white,
-                            Colors.grey,
+                            Colors.red,
+                            Colors.redAccent,
                           ]),
                     ),
                     child: Text(
-                      "OK",
+                      "Register",
                       style: TextStyle(fontSize: 18, color: Colors.grey[900]),
                     ),
                   ),

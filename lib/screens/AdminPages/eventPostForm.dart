@@ -325,7 +325,16 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                       'Date': eventDate,
                       'Time': time.format(context).toString(),
                       'Image': imageUrl,
+                      'Participants' : 0,
+                      // 'Organizer' : "Pasc",
                     }).then((value) {
+                      var documentId = value.id;
+                      FirebaseFirestore.instance
+                          .collection('Events')
+                          .doc(documentId)
+                          .update({
+                        'id': documentId,
+                      });
                       showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(

@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mycollegenetwork/services/userDetails.dart'; //Library for date formatter
+import 'package:mycollegenetwork/services/userDetails.dart';
+import 'package:url_launcher/url_launcher.dart'; //Library for date formatter
 
 //! add a read more!
 //! Add a speaker and platform, link sessions
@@ -193,11 +194,26 @@ class _EventsState extends State<Events> {
                                   //     noOfParticipants = _val.docs.length.toString();
                                   //   });
                                   // });
+
+                                  bool isRegistered = true;
+                                  DocumentSnapshot ds = await FirebaseFirestore
+                                      .instance
+                                      .collection("Events")
+                                      .doc(_notification[index]['id'])
+                                      .collection("UserDetails")
+                                      .doc(UserDetails.uid)
+                                      .get();
+                                  this.setState(() {
+                                    isRegistered = ds.exists;
+                                  });
+
                                   showDialog(
                                     context: context,
                                     builder: (context) {
                                       return _CustomBox(
-                                          notification: _notification[index]);
+                                        notification: _notification[index],
+                                        isRegistered: isRegistered,
+                                      );
                                     },
                                   );
                                 },
@@ -220,8 +236,10 @@ class _EventsState extends State<Events> {
 
 class _CustomBox extends StatelessWidget {
   final notification;
+  var isRegistered;
   _CustomBox({
     required this.notification,
+    required this.isRegistered,
   });
 
   @override
@@ -309,24 +327,24 @@ class _CustomBox extends StatelessWidget {
                           ],
                         )
                       : null),
-              Container(
-                  child: (notification['Link'].length > 0)
-                      ? Column(
-                          children: [
-                            Text(
-                              "Link: " + notification['Link'],
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                          ],
-                        )
-                      : null),
+              // Container(
+              //     child: (notification['Link'].length > 0)
+              //         ? Column(
+              //             children: [
+              //               Text(
+              //                 "Link: " + notification['Link'],
+              //                 textAlign: TextAlign.start,
+              //                 style: TextStyle(
+              //                   fontSize: 16,
+              //                   color: Colors.white,
+              //                 ),
+              //               ),
+              //               SizedBox(
+              //                 height: 16,
+              //               ),
+              //             ],
+              //           )
+              //         : null),
               Container(
                   child: (notification['Date'] != null)
                       ? Text(
@@ -356,53 +374,89 @@ class _CustomBox extends StatelessWidget {
                 height: 20,
               ),
               Container(
-                child: Text("No of participants: " + notification['Participants'].toString()),
+                child: Text("No of participants: " +
+                    notification['Participants'].toString()),
               ),
               SizedBox(
                 height: 20,
               ),
-              GestureDetector(
-                onTap: () {
-                  // print(UserDetails.uid);
-                  FirebaseFirestore.instance
-                      .collection('Events')
-                      .doc(notification['id'])
-                      .collection('UserDetails')
-                      .doc(UserDetails.uid)
-                      .set({
-                    'Name': UserDetails.name,
-                    'RollNo': UserDetails.rollNo,
-                    'Email': UserDetails.email,
-                    'PhoneNo': UserDetails.phoneNo,
-                  });
-                  FirebaseFirestore.instance
-                      .collection('Events')
-                      .doc(notification['id']).update({
-                    'Participants': FieldValue.increment(1)
-                  });
-                  Navigator.pop(context);
-                },
-                child: Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: deviceHeight * 0.055,
-                    width: deviceHeight * 0.2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(17),
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            Colors.red,
-                            Colors.redAccent,
-                          ]),
-                    ),
-                    child: Text(
-                      "Register",
-                      style: TextStyle(fontSize: 18, color: Colors.grey[900]),
-                    ),
-                  ),
-                ),
+              Container(
+                child: !isRegistered
+                    ? GestureDetector(
+                        onTap: () {
+                          // print(UserDetails.uid);
+                          FirebaseFirestore.instance
+                              .collection('Events')
+                              .doc(notification['id'])
+                              .collection('UserDetails')
+                              .doc(UserDetails.uid)
+                              .set({
+                            'Name': UserDetails.name,
+                            'RollNo': UserDetails.rollNo,
+                            'Email': UserDetails.email,
+                            'PhoneNo': UserDetails.phoneNo,
+                          });
+                          FirebaseFirestore.instance
+                              .collection('Events')
+                              .doc(notification['id'])
+                              .update(
+                            {
+                              'Participants': FieldValue.increment(1),
+                            },
+                          );
+                          Navigator.pop(context);
+                        },
+                        child: Center(
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: deviceHeight * 0.055,
+                            width: deviceHeight * 0.2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(17),
+                              gradient: LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    Colors.red,
+                                    Colors.redAccent,
+                                  ]),
+                            ),
+                            child: Text(
+                              "Register",
+                              style: TextStyle(
+                                  fontSize: 18, color: Colors.grey[900]),
+                            ),
+                          ),
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          launchURL(notification['Link']);
+                          Navigator.pop(context);
+                        },
+                        child: Center(
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: deviceHeight * 0.055,
+                            width: deviceHeight * 0.2,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(17),
+                              gradient: LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    Colors.blue,
+                                    Colors.blueAccent,
+                                  ]),
+                            ),
+                            child: Text(
+                              "Go to Event!",
+                              style: TextStyle(
+                                  fontSize: 18, color: Colors.grey[900]),
+                            ),
+                          ),
+                        ),
+                      ),
               ),
             ],
           ),
@@ -411,3 +465,6 @@ class _CustomBox extends StatelessWidget {
     );
   }
 }
+
+void launchURL(_url) async =>
+    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';

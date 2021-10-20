@@ -6,15 +6,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 // ignore: camel_case_types
-class EventPost_Admin extends StatefulWidget {
-  const EventPost_Admin({Key? key}) : super(key: key);
+class OpportunityPost_Admin extends StatefulWidget {
+  const OpportunityPost_Admin({Key? key}) : super(key: key);
 
   @override
-  _EventPost_AdminState createState() => _EventPost_AdminState();
+  _OpportunityPost_AdminState createState() => _OpportunityPost_AdminState();
 }
 
 // ignore: camel_case_types
-class _EventPost_AdminState extends State<EventPost_Admin> {
+class _OpportunityPost_AdminState extends State<OpportunityPost_Admin> {
   late File _pickedImage;
   var isPicked = false;
   void _pickImage() async {
@@ -56,9 +56,6 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
     }
   }
 
-  String _dropdownvalue = 'EDC';
-  var _items = ['EDC', 'PASC', 'CSI', 'PISB', 'DEBSOC', 'MUN'];
-
   @override
   void dispose() {
     titleController.dispose();
@@ -78,7 +75,7 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
           },
           icon: Icon(Icons.arrow_back_ios_sharp),
         ),
-        title: Text("Add Event"),
+        title: Text("Add Opportunity"),
       ),
       body: Form(
         child: SingleChildScrollView(
@@ -249,37 +246,10 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      "Organizer - ",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                    Spacer(flex: 2),
-                    DropdownButton(
-                      value: _dropdownvalue,
-                      icon: Icon(Icons.keyboard_arrow_down),
-                      items: _items.map((String items) {
-                        return DropdownMenuItem(
-                            value: items, child: Text(items));
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _dropdownvalue = newValue!;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
 
                 // DateRangePickerDialog(
                 //     firstDate: DateTime(2021), lastDate: DateTime(2121)),
-                SizedBox(
-                  height: 20,
-                ),
+
                 Container(
                   child: Column(
                     children: [
@@ -347,13 +317,13 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                       firebase_storage.Reference ref = firebase_storage
                           .FirebaseStorage.instance
                           .ref()
-                          .child('Event_images')
+                          .child('Opportunity_images')
                           .child('$time');
                       await ref.putFile(_pickedImage);
                       imageUrl = await ref.getDownloadURL();
                     }
 
-                    FirebaseFirestore.instance.collection('Events').add({
+                    FirebaseFirestore.instance.collection('Opportunities').add({
                       'Title': title,
                       'createdAt': Timestamp.now(),
                       'Description': description,
@@ -363,11 +333,10 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                       'Time': time.format(context).toString(),
                       'Image': imageUrl,
                       'Participants': 0,
-                      'Organizer': _dropdownvalue,
                     }).then((value) {
                       var documentId = value.id;
                       FirebaseFirestore.instance
-                          .collection('Events')
+                          .collection('Opportunities')
                           .doc(documentId)
                           .update({
                         'id': documentId,
@@ -375,14 +344,14 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                       showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
-                          title: Text("Event has been added successfully"),
+                          title: Text("Opportunity has been added successfully"),
                           // content: Text("T"),
                           actions: <Widget>[
                             MaterialButton(
                               onPressed: () {
                                 Navigator.of(ctx).pop();
                               },
-                              child: Text("okay"),
+                              child: Text("Okay"),
                             ),
                           ],
                         ),
@@ -402,7 +371,7 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40)),
                   child: Text(
-                    "Post Event",
+                    "Post Opportunity",
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 25,

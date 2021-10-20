@@ -1,5 +1,6 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'MainScreens/Opportunity.dart';
 import 'MoreScreens/AppDrawer.dart';
 import 'MainScreens/Calender.dart';
 import 'MainScreens/Chats.dart';
@@ -17,7 +18,8 @@ class _InitialPageState extends State<InitialPage> {
   int _selectedIndex = 2;
   static const List<Widget> pages = <Widget>[
     Events(),
-    Chats(),
+    // Chats(),
+    Opportunities(),
     Home(),
     Calender(),
     Profile(),
@@ -51,7 +53,8 @@ class _InitialPageState extends State<InitialPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_outlined),
-            label: 'Chats',
+            // label: 'Chats',
+            label: 'Opportunities',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

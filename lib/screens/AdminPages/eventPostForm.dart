@@ -56,6 +56,9 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
     }
   }
 
+  String _dropdownvalue = 'EDC';
+  var _items = ['EDC', 'PASC', 'CSI', 'PISB', 'DEBSOC', 'MUN'];
+
   @override
   void dispose() {
     titleController.dispose();
@@ -243,6 +246,35 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Organizer - ",
+                      style: TextStyle(fontSize: 18, color: Colors.grey[900]),
+                    ),
+                    Spacer(flex: 2),
+                    DropdownButton(
+                      value: _dropdownvalue,
+                      icon: Icon(Icons.keyboard_arrow_down),
+                      items: _items.map((String items) {
+                        return DropdownMenuItem(
+                            value: items, child: Text(items));
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _dropdownvalue = newValue!;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+
                 // DateRangePickerDialog(
                 //     firstDate: DateTime(2021), lastDate: DateTime(2121)),
                 SizedBox(
@@ -283,16 +315,24 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                       ]),
                       Container(
                         child: isPicked
-                            ? Container(
-                                child: Image(
-                                  image: FileImage(_pickedImage),
-                                ),
+                            ? Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                    child: Image(
+                                      image: FileImage(_pickedImage),
+                                    ),
+                                  ),
+                                ],
                               )
                             : null,
                       ),
                     ],
                   ),
                 ),
+
                 SizedBox(
                   height: 20,
                 ),
@@ -304,9 +344,6 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                     if (isPicked) {
                       var time =
                           DateTime.now().millisecondsSinceEpoch.toString();
-
-                      // FirebaseAuth auth = FirebaseAuth.instance;
-                      // String uid = auth.currentUser!.uid.toString();
                       firebase_storage.Reference ref = firebase_storage
                           .FirebaseStorage.instance
                           .ref()
@@ -325,8 +362,8 @@ class _EventPost_AdminState extends State<EventPost_Admin> {
                       'Date': eventDate,
                       'Time': time.format(context).toString(),
                       'Image': imageUrl,
-                      'Participants' : 0,
-                      // 'Organizer' : "Pasc",
+                      'Participants': 0,
+                      'Organizer': _dropdownvalue,
                     }).then((value) {
                       var documentId = value.id;
                       FirebaseFirestore.instance

@@ -5,10 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:mycollegenetwork/services/userDetails.dart';
 import 'package:url_launcher/url_launcher.dart'; //Library for date formatter
 
-//! add a read more!
-//! Add a speaker and platform, link sessions
-// String noOfParticipants = "0";
-
 class Events extends StatefulWidget {
   const Events({Key? key}) : super(key: key);
 
@@ -97,19 +93,30 @@ class _EventsState extends State<Events> {
                                 height: 10,
                               ),
                               Container(
-                                child: Text(
-                                  _notification[index]['Title'],
-                                  // "Title",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: 40,
+                                      color: Colors.black,
+                                      child: Image(image: AssetImage('assets/icons/${_notification[index]['Organizer']}.jfif')),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    Text(
+                                      _notification[index]['Title'],
+                                      // "Title",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 width: MediaQuery.of(context).size.width * 0.8,
                               ),
                               SizedBox(
-                                height: 16,
+                                height: 6,
                               ),
                               Container(
                                 child: Text(
